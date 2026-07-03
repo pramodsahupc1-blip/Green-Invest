@@ -1,0 +1,6 @@
+{
+  "name": "Green Invest",
+  "description": "A modern, premium, mobile-first investment and recharge platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

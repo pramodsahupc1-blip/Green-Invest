@@ -1,0 +1,12 @@
+{
+  "firestore": [
+    {
+      "database": "ai-studio-greeninvest-bcc27b17-011e-4235-8939-0135e5a6d7d9",
+      "rules": "firestore.rules"
+    },
+    {
+      "database": "(default)",
+      "rules": "firestore.rules"
+    }
+  ]
+}
