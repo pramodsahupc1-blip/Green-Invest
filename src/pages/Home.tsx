@@ -11,6 +11,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const { settings } = useSettings();
   const [currentBanner, setCurrentBanner] = useState(0);
+  const [activeTab, setActiveTab] = useState<"normal" | "vip">("normal");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -147,11 +148,25 @@ export default function Home() {
 
       {/* Tabs */}
       <div className="px-4 mt-6 flex gap-3">
-        <button className="flex-1 bg-primary text-white py-3 rounded-2xl font-semibold flex items-center justify-center shadow-md shadow-primary/20">
-          <Star className="w-4 h-4 mr-2" /> Normal
+        <button
+          onClick={() => setActiveTab("normal")}
+          className={`flex-1 py-3 rounded-2xl font-semibold flex items-center justify-center transition-all ${
+            activeTab === "normal"
+              ? "bg-primary text-white shadow-md shadow-primary/20"
+              : "bg-white text-text-gray shadow-sm border border-gray-100 hover:bg-gray-50"
+          }`}
+        >
+          <Star className={`w-4 h-4 mr-2 ${activeTab === "normal" ? "text-white" : "text-gray-400"}`} /> Normal
         </button>
-        <button className="flex-1 bg-white text-text-gray py-3 rounded-2xl font-semibold flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50">
-          <Star className="w-4 h-4 mr-2 text-gray-400" /> VIP
+        <button
+          onClick={() => setActiveTab("vip")}
+          className={`flex-1 py-3 rounded-2xl font-semibold flex items-center justify-center transition-all ${
+            activeTab === "vip"
+              ? "bg-amber-500 text-white shadow-md shadow-amber-500/20"
+              : "bg-white text-text-gray shadow-sm border border-gray-100 hover:bg-gray-50"
+          }`}
+        >
+          <Star className={`w-4 h-4 mr-2 ${activeTab === "vip" ? "text-white" : "text-amber-500"}`} /> VIP
         </button>
       </div>
 
@@ -159,10 +174,15 @@ export default function Home() {
       <div className="px-4 mt-6 grid grid-cols-2 gap-4 pb-6">
         {loading ? (
           <div className="col-span-2 text-center py-8 text-gray-500 font-medium">Loading products...</div>
-        ) : products.length === 0 ? (
-          <div className="col-span-2 text-center py-8 text-gray-500 font-medium">No products available</div>
+        ) : products.filter((p) => (p.type || "normal") === activeTab).length === 0 ? (
+          <div className="col-span-2 text-center py-12 bg-white rounded-3xl border border-gray-100 text-gray-400 font-semibold flex flex-col items-center justify-center p-6 shadow-sm">
+            <Star className="w-8 h-8 text-gray-300 mb-2" />
+            No {activeTab === "normal" ? "Normal" : "VIP"} products available yet.
+          </div>
         ) : (
-          products.map((product, i) => (
+          products
+            .filter((p) => (p.type || "normal") === activeTab)
+            .map((product, i) => (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

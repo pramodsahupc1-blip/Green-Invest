@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
-import { User, Shield, LogOut, ChevronRight, CheckCircle, CreditCard, Banknote, ListOrdered, Download } from "lucide-react";
+import { User, Shield, LogOut, ChevronRight, CheckCircle, CreditCard, Banknote, ListOrdered, Download, Lock } from "lucide-react";
 import { useSettings } from "../lib/SettingsContext";
 
 export default function Profile() {
@@ -74,6 +74,7 @@ export default function Profile() {
           <MenuLink icon={<ListOrdered className="text-primary" />} title="My Product" />
           <MenuLink icon={<Banknote className="text-purple-500" />} title="Revenue Record" />
           <MenuLink icon={<Banknote className="text-orange-500" />} title="Withdraw Record" />
+          <MenuLink icon={<Lock className="text-red-500" />} title="Admin Panel" to="/admin" />
           
           <a href={settings.appDownloadLink} target="_blank" rel="noreferrer" className="flex items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
             <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mr-4">
@@ -98,9 +99,9 @@ export default function Profile() {
   );
 }
 
-function MenuLink({ icon, title }: { icon: React.ReactNode, title: string }) {
+function MenuLink({ icon, title, to = "#" }: { icon: React.ReactNode, title: string, to?: string }) {
   return (
-    <Link to="#" className="flex items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
+    <Link to={to} className="flex items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
       <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mr-4">
         {icon}
       </div>

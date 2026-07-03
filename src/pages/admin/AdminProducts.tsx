@@ -16,7 +16,8 @@ export default function AdminProducts() {
     deposit: "",
     daily: "",
     total: "",
-    days: ""
+    days: "",
+    type: "normal"
   });
 
   // Edit Product Form State
@@ -61,11 +62,12 @@ export default function AdminProducts() {
         daily: Number(newProduct.daily),
         total: Number(newProduct.total),
         days: Number(newProduct.days),
+        type: newProduct.type || "normal",
         createdAt: serverTimestamp()
       });
       
       setShowAddModal(false);
-      setNewProduct({ name: "", image: "", deposit: "", daily: "", total: "", days: "" });
+      setNewProduct({ name: "", image: "", deposit: "", daily: "", total: "", days: "", type: "normal" });
       fetchProducts(); // Refresh list
     } catch (error) {
       console.error("Error adding product:", error);
@@ -83,7 +85,8 @@ export default function AdminProducts() {
       deposit: product.deposit ? String(product.deposit) : "",
       daily: product.daily ? String(product.daily) : "",
       total: product.total ? String(product.total) : "",
-      days: product.days ? String(product.days) : ""
+      days: product.days ? String(product.days) : "",
+      type: product.type || "normal"
     });
   };
 
@@ -103,6 +106,7 @@ export default function AdminProducts() {
         daily: Number(editingProduct.daily),
         total: Number(editingProduct.total),
         days: Number(editingProduct.days),
+        type: editingProduct.type || "normal",
         updatedAt: serverTimestamp()
       });
       
@@ -169,6 +173,7 @@ export default function AdminProducts() {
               <tr className="border-b border-gray-100 text-xs text-gray-500 uppercase tracking-wider">
                 <th className="pb-4 font-semibold">Image</th>
                 <th className="pb-4 font-semibold">Product Name</th>
+                <th className="pb-4 font-semibold">Type</th>
                 <th className="pb-4 font-semibold">Deposit</th>
                 <th className="pb-4 font-semibold">Daily Income</th>
                 <th className="pb-4 font-semibold">Total Income</th>
@@ -198,6 +203,17 @@ export default function AdminProducts() {
                       )}
                     </td>
                     <td className="py-4 text-gray-900 font-bold">{product.name}</td>
+                    <td className="py-4">
+                      {product.type === "vip" ? (
+                        <span className="bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-200">
+                          VIP
+                        </span>
+                      ) : (
+                        <span className="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full text-xs font-bold border border-blue-200">
+                          Normal
+                        </span>
+                      )}
+                    </td>
                     <td className="py-4 font-bold text-primary">₹{(product.deposit || 0).toLocaleString()}</td>
                     <td className="py-4 font-bold text-green-600">₹{(product.daily || 0).toLocaleString()}</td>
                     <td className="py-4 font-bold text-gray-900">₹{(product.total || 0).toLocaleString()}</td>
@@ -252,6 +268,34 @@ export default function AdminProducts() {
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="e.g. Green Invest Plan A"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Product Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setNewProduct({...newProduct, type: "normal"})}
+                    className={`py-2.5 rounded-xl text-sm font-bold border transition-all ${
+                      newProduct.type === "normal"
+                        ? "bg-primary/10 border-primary text-primary"
+                        : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    Normal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewProduct({...newProduct, type: "vip"})}
+                    className={`py-2.5 rounded-xl text-sm font-bold border transition-all ${
+                      newProduct.type === "vip"
+                        ? "bg-amber-500/10 border-amber-500 text-amber-700"
+                        : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    VIP
+                  </button>
+                </div>
               </div>
 
               <div>
@@ -355,6 +399,34 @@ export default function AdminProducts() {
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   placeholder="e.g. Green Invest Plan A"
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Product Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({...editingProduct, type: "normal"})}
+                    className={`py-2.5 rounded-xl text-sm font-bold border transition-all ${
+                      editingProduct.type === "normal"
+                        ? "bg-primary/10 border-primary text-primary"
+                        : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    Normal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({...editingProduct, type: "vip"})}
+                    className={`py-2.5 rounded-xl text-sm font-bold border transition-all ${
+                      editingProduct.type === "vip"
+                        ? "bg-amber-500/10 border-amber-500 text-amber-700"
+                        : "border-gray-200 text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    VIP
+                  </button>
+                </div>
               </div>
 
               <div>
